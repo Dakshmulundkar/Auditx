@@ -345,11 +345,11 @@ export default function SecurityScreen() {
             <Pressable style={styles.navButtonActive}>
               <Text style={styles.navButtonTextActive}>Insights</Text>
             </Pressable>
-            <Pressable style={styles.navButton}>
+            <Pressable style={styles.navButton} onPress={() => Alert.alert('Benefits', 'Benefits section coming soon!')}>
               <Text style={styles.navButtonText}>Benefits</Text>
             </Pressable>
           </View>
-          <Pressable style={styles.bellButton}>
+          <Pressable style={styles.bellButton} onPress={() => Alert.alert('Settings', 'Settings panel coming soon!')}>
             <MaterialIcons name="notifications-none" size={20} color="#374151" />
             {listenersActive && <View style={styles.bellDot} />}
           </Pressable>
@@ -852,7 +852,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 24,
   },
@@ -901,7 +901,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   securityDashboard: {
     backgroundColor: '#ffffff',
@@ -916,12 +916,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginBottom: 12,
+    flexWrap: 'wrap',
+    gap: 8,
   },
   dashboardStatus: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '500',
     color: '#111827',
     marginBottom: 4,
+    flexWrap: 'wrap',
+    lineHeight: 20,
   },
   dashboardSubtext: {
     fontSize: 12,
@@ -1090,18 +1094,22 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     alignItems: 'center',
+    minHeight: 100,
   },
   metricValue: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '600',
     color: '#111827',
     marginTop: 8,
     marginBottom: 4,
+    textAlign: 'center',
   },
   metricLabel: {
-    fontSize: 11,
+    fontSize: 10,
     color: '#6b7280',
     textAlign: 'center',
+    lineHeight: 14,
+    flexWrap: 'wrap',
   },
   protectionCard: {
     backgroundColor: '#ffffff',
@@ -1124,16 +1132,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
     flex: 1,
+    maxWidth: '75%',
   },
   protectionTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '500',
     color: '#111827',
     marginBottom: 2,
+    flexWrap: 'wrap',
+    flex: 1,
   },
   protectionDesc: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#6b7280',
+    flexWrap: 'wrap',
   },
   enabledBadge: {
     backgroundColor: '#d1fae5',
@@ -1168,9 +1180,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   patternValue: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#111827',
     fontWeight: '600',
+    flexWrap: 'wrap',
+    textAlign: 'right',
+    maxWidth: '50%',
   },
   statusItem: {
     flexDirection: 'row',
@@ -1224,10 +1239,12 @@ const styles = StyleSheet.create({
   },
   timelineTitle: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '500',
     color: '#111827',
     marginRight: 8,
+    flexWrap: 'wrap',
+    lineHeight: 18,
   },
   timelineTime: {
     fontSize: 11,
@@ -1291,10 +1308,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   merchantName: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '500',
     color: '#111827',
     marginBottom: 4,
+    flexWrap: 'wrap',
   },
   transactionTime: {
     fontSize: 12,
@@ -1305,9 +1323,10 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   transactionAmount: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
     color: '#111827',
+    textAlign: 'right',
   },
   riskPill: {
     paddingHorizontal: 10,
@@ -1483,10 +1502,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   smsParsingTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '500',
     color: '#111827',
     marginBottom: 2,
+    flexWrap: 'wrap',
   },
   smsParsingDesc: {
     fontSize: 12,
@@ -1561,17 +1581,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   parsedTransactionMerchant: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '500',
     color: '#111827',
     marginBottom: 2,
+    flexWrap: 'wrap',
   },
   parsedTransactionTime: {
     fontSize: 11,
     color: '#9ca3af',
   },
   parsedTransactionAmount: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
+    textAlign: 'right',
+    minWidth: 80,
   },
 });

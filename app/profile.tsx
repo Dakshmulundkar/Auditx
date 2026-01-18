@@ -128,11 +128,11 @@ export default function ProfileScreen() {
             <Pressable style={styles.navButtonActive}>
               <Text style={styles.navButtonTextActive}>Profile</Text>
             </Pressable>
-            <Pressable style={styles.navButton}>
+            <Pressable style={styles.navButton} onPress={() => Alert.alert('Settings', 'Settings section coming soon!')}>
               <Text style={styles.navButtonText}>Settings</Text>
             </Pressable>
           </View>
-          <Pressable style={styles.bellButton}>
+          <Pressable style={styles.bellButton} onPress={() => Alert.alert('Settings', 'Settings panel coming soon!')}>
             <MaterialIcons name="settings" size={20} color="#374151" />
           </Pressable>
         </View>
@@ -306,7 +306,7 @@ export default function ProfileScreen() {
           </Pressable>
         </View>
         
-        <View style={{ height: 40 }} />
+        <View style={{ height: 20 }} />
       </ScrollView>
     </View>
   );
@@ -324,9 +324,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 16,
-    paddingBottom: 24,
+    paddingBottom: 20,
   },
   navButtons: {
     flexDirection: 'row',
@@ -361,7 +361,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   loginContainer: {
     flex: 1,
@@ -398,9 +399,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e5e7eb',
     borderRadius: 16,
-    padding: 24,
+    padding: 20,
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   avatarContainer: {
     marginBottom: 16,
@@ -455,11 +456,12 @@ const styles = StyleSheet.create({
     color: '#059669',
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '500',
     color: '#111827',
     letterSpacing: -0.5,
-    marginBottom: 12,
+    marginBottom: 10,
+    marginTop: 4,
   },
   verificationCard: {
     backgroundColor: '#ffffff',
@@ -467,7 +469,7 @@ const styles = StyleSheet.create({
     borderColor: '#e5e7eb',
     borderRadius: 16,
     padding: 16,
-    marginBottom: 24,
+    marginBottom: 20,
   },
   verificationItem: {
     flexDirection: 'row',
@@ -523,7 +525,7 @@ const styles = StyleSheet.create({
     borderColor: '#e5e7eb',
     borderRadius: 16,
     padding: 16,
-    marginBottom: 24,
+    marginBottom: 20,
   },
   settingItem: {
     flexDirection: 'row',
@@ -550,10 +552,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#fecaca',
-    paddingVertical: 14,
-    borderRadius: 999,
+    paddingVertical: 12,
+    borderRadius: 12,
     gap: 8,
-    marginTop: 24,
+    marginTop: 16,
+    marginBottom: 20,
   },
   signOutText: {
     fontSize: 14,
@@ -567,7 +570,7 @@ const styles = StyleSheet.create({
     borderColor: '#e5e7eb',
     borderRadius: 16,
     padding: 16,
-    marginBottom: 24,
+    marginBottom: 20,
   },
   bankAccountItem: {
     flexDirection: 'row',
