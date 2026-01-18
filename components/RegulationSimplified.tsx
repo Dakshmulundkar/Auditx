@@ -449,7 +449,7 @@ export const RegulationSimplified: React.FC = () => {
           >
             <MaterialIcons 
               name={category.icon as any} 
-              size={20} 
+              size={12} 
               color={selectedCategory === category.id ? '#fff' : '#64748b'} 
             />
             <Text style={[
@@ -487,27 +487,29 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     backgroundColor: '#fff',
-    paddingVertical: 16,
+    paddingVertical: 12,
     paddingHorizontal: 16,
-    marginBottom: 16,
+    marginBottom: 12,
   },
   categoryTab: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 1,
     marginRight: 8,
-    borderRadius: 20,
+    borderRadius: 12,
     backgroundColor: '#f8f9fa',
+    minHeight: 18,
   },
   activeCategoryTab: {
     backgroundColor: '#0f172a',
   },
   categoryText: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '500',
     color: '#64748b',
-    marginLeft: 6,
+    marginLeft: 3,
+    lineHeight: 12,
   },
   activeCategoryText: {
     color: '#fff',
@@ -519,8 +521,8 @@ const styles = StyleSheet.create({
   regulationCard: {
     backgroundColor: '#fff',
     borderRadius: 16,
-    padding: 20,
-    marginBottom: 12,
+    padding: 16,
+    marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
@@ -534,30 +536,31 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   regulationTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: '#0f172a',
     flex: 1,
-  },
-  regulationDescription: {
-    fontSize: 14,
-    color: '#64748b',
     lineHeight: 20,
   },
+  regulationDescription: {
+    fontSize: 13,
+    color: '#64748b',
+    lineHeight: 18,
+  },
   expandedContent: {
-    marginTop: 16,
-    paddingTop: 16,
+    marginTop: 12,
+    paddingTop: 12,
     borderTopWidth: 1,
     borderTopColor: '#f1f5f9',
   },
   section: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
     color: '#0f172a',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   bulletPoint: {
     fontSize: 13,
@@ -581,10 +584,10 @@ const styles = StyleSheet.create({
   disclaimer: {
     flexDirection: 'row',
     backgroundColor: '#fef3c7',
-    padding: 16,
+    padding: 12,
     borderRadius: 12,
-    marginTop: 16,
-    marginBottom: 32,
+    marginTop: 12,
+    marginBottom: 24,
   },
   disclaimerText: {
     fontSize: 12,

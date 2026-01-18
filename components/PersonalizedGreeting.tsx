@@ -53,10 +53,18 @@ export const PersonalizedGreeting: React.FC<PersonalizedGreetingProps> = ({
 
   return (
     <View>
-      <Text style={[styles.greeting, style]}>
+      <Text 
+        style={[styles.greeting, style]}
+        numberOfLines={1}
+        ellipsizeMode="tail"
+      >
         {getGreeting()}
       </Text>
-      <Text style={[styles.subGreeting, subtitleStyle]}>
+      <Text 
+        style={[styles.subGreeting, subtitleStyle]}
+        numberOfLines={1}
+        ellipsizeMode="tail"
+      >
         {getSubtitle()}
       </Text>
     </View>
@@ -65,13 +73,13 @@ export const PersonalizedGreeting: React.FC<PersonalizedGreetingProps> = ({
 
 const styles = StyleSheet.create({
   greeting: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '600',
     color: '#0f172a',
     letterSpacing: -0.5,
   },
   subGreeting: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#64748b',
     marginTop: 2,
     fontWeight: '400',
