@@ -2,8 +2,12 @@ const axios = require('axios');
 
 class GeminiService {
   constructor() {
-    this.apiKey = process.env.GEMINI_API_KEY || 'AIzaSyDLbZgHc_kuAWlFOV05PAPhbtJ-6vlOF7Q';
+    this.apiKey = process.env.GEMINI_API_KEY;
     this.apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+    
+    if (!this.apiKey) {
+      console.warn('GEMINI_API_KEY not found in environment variables. Using mock responses.');
+    }
   }
 
   /**
@@ -13,7 +17,7 @@ class GeminiService {
     const prompt = this.buildFraudPrompt(transaction, analysis);
 
     // Try real API first
-    if (this.apiKey && this.apiKey !== 'your_gemini_api_key_here') {
+    if (this.apiKey) {
       try {
         const response = await axios.post(
           `${this.apiUrl}?key=${this.apiKey}`,
@@ -51,7 +55,7 @@ class GeminiService {
   async askQuestion(question, transaction, analysis) {
     const prompt = this.buildQuestionPrompt(question, transaction, analysis);
 
-    if (!this.apiKey || this.apiKey === 'your_gemini_api_key_here') {
+    if (!this.apiKey) {
       return this.getMockAnswer(question, transaction, analysis);
     }
 
@@ -154,7 +158,7 @@ ${analysis.recommendation}`;
    * Generate text using Gemini (for NLP parsing)
    */
   async generateText(prompt) {
-    if (!this.apiKey || this.apiKey === 'your_gemini_api_key_here') {
+    if (!this.apiKey) {
       // Return mock response for parsing
       return this.getMockParseResponse(prompt);
     }

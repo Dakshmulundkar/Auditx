@@ -1,4 +1,6 @@
-const GEMINI_API_KEY = "AIzaSyDLbZgHc_kuAWlFOV05PAPhbtJ-6vlOF7Q";
+import Constants from 'expo-constants';
+
+const GEMINI_API_KEY = Constants.expoConfig?.extra?.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent";
 
 export interface GeminiResponse {

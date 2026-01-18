@@ -1,29 +1,43 @@
 {
   "expo": {
-    "name": "HackWins Fintech Security",
-    "slug": "hackwins-fintech",
+    "name": "AuditX",
+    "slug": "auditx",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.hackwins.fintech"
+      "bundleIdentifier": "com.auditx.app"
     },
     "android": {
-      "package": "com.hackwins.fintech",
+      "package": "com.auditx.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
       "permissions": [
         "READ_SMS",
         "RECEIVE_SMS",
         "READ_PHONE_STATE",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "CAMERA",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT"
       ]
     },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
     },
-    "scheme": "hackwins"
+    "scheme": "auditx"
   }
 }
