@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, Pressable, TextInput, Alert, Modal 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { router } from 'expo-router';
 import { DashboardCharts } from '../components/DashboardCharts';
 import { HealthSnapshot } from '../components/HealthSnapshot';
 import { InsightCard } from '../components/InsightCard';
@@ -43,6 +44,7 @@ export default function DashboardScreen() {
   const [investmentGuidanceVisible, setInvestmentGuidanceVisible] = useState(false);
   const [regulationVisible, setRegulationVisible] = useState(false);
   const [userProfile, setUserProfile] = useState(userService.getMockUserProfile());
+  const [languageDropdownVisible, setLanguageDropdownVisible] = useState(false);
 
   useEffect(() => {
     initializeServices();
@@ -113,19 +115,28 @@ export default function DashboardScreen() {
   };
 
   const toggleLanguage = async () => {
-    const order = ['en', 'hi', 'te', 'ma', 'bn'];
-    const idx = order.indexOf(language);
-    const next = order[(idx + 1) % order.length];
-    
+    setLanguageDropdownVisible(!languageDropdownVisible);
+  };
+
+  const selectLanguage = async (selectedLang: string) => {
     try {
-      await languageService.changeLanguage(next);
-      setLanguage(next);
-      Alert.alert(t('common.success'), `Language set to ${next.toUpperCase()}`);
+      await languageService.changeLanguage(selectedLang);
+      setLanguage(selectedLang);
+      setLanguageDropdownVisible(false);
+      Alert.alert(t('common.success'), `Language set to ${selectedLang.toUpperCase()}`);
     } catch (error) {
       Alert.alert(t('common.error'), 'Failed to change language');
       console.error('Language change failed:', error);
     }
   };
+
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'hi', name: 'हिंदी', flag: '🇮🇳' },
+    { code: 'te', name: 'తెలుగు', flag: '🇮🇳' },
+    { code: 'ma', name: 'मराठी', flag: '🇮🇳' },
+    { code: 'bn', name: 'বাংলা', flag: '🇧🇩' },
+  ];
 
   const handleCheckNumber = () => {
     if (!phoneNumber.trim()) {
@@ -160,14 +171,17 @@ export default function DashboardScreen() {
         <View style={styles.gradientHeader}>
           <SafeAreaView>
             <View style={styles.header}>
-              <PersonalizedGreeting />
+              <View style={styles.greetingContainer}>
+                <PersonalizedGreeting />
+              </View>
               <View style={styles.headerRight}>
-                <Pressable style={styles.notificationButton}>
+                <Pressable style={styles.notificationButton} onPress={() => Alert.alert('Notifications', 'No new notifications')}>
                   <MaterialIcons name="notifications-none" size={20} color="#64748b" />
                   <View style={styles.notificationDot} />
                 </Pressable>
                 <Pressable onPress={toggleLanguage} style={styles.langButton}>
                   <Text style={styles.langText}>{language.toUpperCase()}</Text>
+                  <MaterialIcons name="keyboard-arrow-down" size={16} color="#475569" />
                 </Pressable>
               </View>
             </View>
@@ -251,7 +265,10 @@ export default function DashboardScreen() {
           </View>
           <Text style={styles.loanAmount}>₹3,00,000</Text>
           <Text style={styles.loanType}>{t('loan.personalLoan')}</Text>
-          <Pressable style={styles.applyButton}>
+          <Pressable style={styles.applyButton} onPress={() => {
+            // Navigate directly to loans tab with application trigger
+            router.push('/loans?startApplication=true');
+          }}>
             <Text style={styles.applyButtonText}>{t('loan.applyNow')}</Text>
             <MaterialIcons name="arrow-forward" size={18} color="#fff" />
           </Pressable>
@@ -304,7 +321,7 @@ export default function DashboardScreen() {
           {/* Credit Builder Enhanced */}
           <Pressable style={styles.enhancedCard} onPress={() => setCreditBuilderVisible(true)}>
             <View style={styles.enhancedCardHeader}>
-              <MaterialIcons name="trending-up" size={24} color="#10b981" />
+              <MaterialIcons name="trending-up" size={20} color="#10b981" />
               <Text style={styles.enhancedCardTitle}>Build Credit Score</Text>
             </View>
             <Text style={styles.enhancedCardDesc}>
@@ -329,7 +346,7 @@ export default function DashboardScreen() {
           {/* Investment Guidance Enhanced */}
           <Pressable style={styles.enhancedCard} onPress={() => setInvestmentGuidanceVisible(true)}>
             <View style={styles.enhancedCardHeader}>
-              <MaterialIcons name="account-balance-wallet" size={24} color="#3b82f6" />
+              <MaterialIcons name="account-balance-wallet" size={20} color="#3b82f6" />
               <Text style={styles.enhancedCardTitle}>Investment Guidance</Text>
             </View>
             <Text style={styles.enhancedCardDesc}>
@@ -354,7 +371,7 @@ export default function DashboardScreen() {
           {/* Regulation Simplified Enhanced */}
           <Pressable style={styles.enhancedCard} onPress={() => setRegulationVisible(true)}>
             <View style={styles.enhancedCardHeader}>
-              <MaterialIcons name="gavel" size={24} color="#8b5cf6" />
+              <MaterialIcons name="gavel" size={20} color="#8b5cf6" />
               <Text style={styles.enhancedCardTitle}>Learn Regulations</Text>
             </View>
             <Text style={styles.enhancedCardDesc}>
@@ -492,6 +509,46 @@ export default function DashboardScreen() {
           </SafeAreaView>
         </Modal>
       )}
+
+      {/* Language Dropdown Modal */}
+      {languageDropdownVisible && (
+        <Modal
+          visible={languageDropdownVisible}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => setLanguageDropdownVisible(false)}
+        >
+          <Pressable 
+            style={styles.languageModalOverlay}
+            onPress={() => setLanguageDropdownVisible(false)}
+          >
+            <View style={styles.languageDropdown}>
+              <Text style={styles.languageDropdownTitle}>Select Language</Text>
+              {languages.map((lang) => (
+                <Pressable
+                  key={lang.code}
+                  style={[
+                    styles.languageOption,
+                    language === lang.code && styles.languageOptionSelected
+                  ]}
+                  onPress={() => selectLanguage(lang.code)}
+                >
+                  <Text style={styles.languageFlag}>{lang.flag}</Text>
+                  <Text style={[
+                    styles.languageOptionText,
+                    language === lang.code && styles.languageOptionTextSelected
+                  ]}>
+                    {lang.name}
+                  </Text>
+                  {language === lang.code && (
+                    <MaterialIcons name="check" size={20} color="#10b981" />
+                  )}
+                </Pressable>
+              ))}
+            </View>
+          </Pressable>
+        </Modal>
+      )}
     </View>
   );
 }
@@ -505,27 +562,37 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 24,
     backgroundColor: '#ffffff',
+    minHeight: 100,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     paddingHorizontal: 20,
     paddingBottom: 16,
+    minHeight: 60,
+  },
+  greetingContainer: {
+    flex: 1,
+    marginRight: 16,
+    maxWidth: '70%',
   },
   headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 12,
+    flexShrink: 0,
   },
   notificationButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: '#f8f9fa',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
   },
   notificationDot: {
     position: 'absolute',
@@ -552,14 +619,22 @@ const styles = StyleSheet.create({
   },
   langButton: {
     backgroundColor: '#f8f9fa',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 18,
+    minWidth: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    flexDirection: 'row',
+    gap: 4,
   },
   langText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     color: '#475569',
+    textAlign: 'center',
   },
   scrollContent: {
     padding: 16,
@@ -591,21 +666,25 @@ const styles = StyleSheet.create({
   overviewItem: {
     width: '31%',
     alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 4,
   },
   overviewLabel: {
-    fontSize: 10,
+    fontSize: 9,
     color: '#94a3b8',
     marginBottom: 6,
     textAlign: 'center',
     fontWeight: '500',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
+    lineHeight: 12,
   },
   overviewValue: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: '#0f172a',
     letterSpacing: -0.5,
+    textAlign: 'center',
   },
   statusCard: {
     backgroundColor: '#fff',
@@ -767,13 +846,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   section: {
-    marginBottom: 12,
+    marginBottom: 8,
   },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   sectionTitle: {
     fontSize: 14,
@@ -783,7 +862,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#fff',
-    borderRadius: 20,
+    borderRadius: 16,
     padding: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -916,9 +995,9 @@ const styles = StyleSheet.create({
   // Enhanced Cards Styles
   enhancedCard: {
     backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 16,
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
@@ -928,19 +1007,20 @@ const styles = StyleSheet.create({
   enhancedCardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   enhancedCardTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: '#0f172a',
-    marginLeft: 12,
+    marginLeft: 10,
   },
   enhancedCardDesc: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#64748b',
-    lineHeight: 20,
-    marginBottom: 16,
+    lineHeight: 18,
+    marginBottom: 12,
+    flexWrap: 'wrap',
   },
   enhancedCardStats: {
     flexDirection: 'row',
@@ -951,15 +1031,69 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   enhancedStatValue: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     color: '#0f172a',
-    marginBottom: 4,
+    marginBottom: 2,
   },
   enhancedStatLabel: {
-    fontSize: 11,
+    fontSize: 10,
     color: '#94a3b8',
     textAlign: 'center',
     fontWeight: '500',
+    lineHeight: 14,
+    flexWrap: 'wrap',
+  },
+  // Language Dropdown Styles
+  languageModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  languageDropdown: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 20,
+    minWidth: 280,
+    maxWidth: 320,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  languageDropdownTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#0f172a',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  languageOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    marginBottom: 4,
+    gap: 12,
+  },
+  languageOptionSelected: {
+    backgroundColor: '#f0fdf4',
+  },
+  languageFlag: {
+    fontSize: 20,
+  },
+  languageOptionText: {
+    flex: 1,
+    fontSize: 16,
+    color: '#374151',
+    fontWeight: '500',
+  },
+  languageOptionTextSelected: {
+    color: '#10b981',
+    fontWeight: '600',
   },
 });
