@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,10 +10,12 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useLocalSearchParams } from 'expo-router';
 import { WorkerAgentsPanel, WorkerAgent } from '../components/WorkerAgentsPanel';
 import { LoanProductsMarketplace, LoanProduct } from '../components/LoanProductsMarketplace';
 
 export default function LoansScreen() {
+  const { startApplication } = useLocalSearchParams();
   const [selectedTab, setSelectedTab] = useState<'loans' | 'history' | 'documents'>('loans');
   const [chatMessages, setChatMessages] = useState([
     {
@@ -37,6 +39,13 @@ export default function LoansScreen() {
       bankStatements: false,
     }
   });
+
+  // Handle navigation parameter to start application
+  useEffect(() => {
+    if (startApplication === 'true') {
+      setApplicationStep(1);
+    }
+  }, [startApplication]);
 
   // Mock loan history
   const [loanHistory] = useState([
